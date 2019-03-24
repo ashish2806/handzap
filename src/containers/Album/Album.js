@@ -7,13 +7,14 @@ class Album extends Component{
 
 
      getalbumHandler(token,id){
+         console.log(token);
         this.props.getalbum(token,id);
         this.props.onviewalbum();
     }
     componentDidMount(){
         setTimeout(() => {
             this.props.getalbum(this.props.token,this.props.userId);
-        }, 3000);
+        }, 500);
         this.props.onviewalbum();
     }
     render(){
@@ -31,9 +32,6 @@ class Album extends Component{
 
         let tri = null;
         if(this.props.insidealbums !== null){
-            /*   tri = props.insidealbum.map(ig=>{
-                    return (<span key={ig.id}><img src={ig}/></span>);
-                });*/
                   tri = <Slider data ={this.props.insidealbums}/>
                 }
 

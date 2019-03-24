@@ -6,7 +6,9 @@ import classes from './Auth.css';
 class Auth extends Component{
 
   
-
+    state={
+        picturr :  ''
+    }
     componentClicked = () =>{
         
     }
@@ -21,9 +23,11 @@ class Auth extends Component{
         let fbContent;
 
         if(this.props.isAuthenticate){
+            console.log(this.props);
             fbContent = (
                 <div className="card">
-                <img src={this.props.picture.data.url} alt={this.props.name} style={{width:"50%"}} />
+                
+                <img src={this.props.picture.data ? this.props.picture.data.url : this.props.picture } alt={this.props.name} style={{width:"50%"}} />
                 <h1>{this.props.name}</h1>
                 <h3>{this.props.email}</h3>
                 </div>

@@ -9,7 +9,7 @@ const initialState = {
     name:'',
     email:'',
     userId:'',
-    picture:''
+    picture:'ccc'
 };
 
 const authStart = ( state, action ) => {
@@ -17,18 +17,31 @@ const authStart = ( state, action ) => {
 };
 
 const authSuccess = (state, action) => {
+    console.log('action');
+    console.log(action.data);
     return updateObject( state, { 
         token: action.data.accessToken,
         userId: action.data.userID,
         email:action.data.email,
         name:action.data.name,
         picture:action.data.picture,
-        error: null,
+        error: 'error',
         view_album: false
         
      } );
 };
 
+const onsuccessload = (state,action) =>{
+    return updateObject( state, { 
+        token: action.accessToken,
+        userId: action.userID,
+        name:action.name,
+        email:action.email,
+        picture : action.picture,
+        view_album: false
+        
+     } );
+}
 const authFail = (state, action) => {
     return updateObject( state, {
         error: action.error,
@@ -62,6 +75,7 @@ const reducer = (state=initialState , action) =>{
         case actionTypes.AUTH_LOGOUT: return authLogout(state,action);
         case actionTypes.AUTH_REDIRECT_PATH : return authRedirectPath(state,action);
         case actionTypes.ONVIEW_ALBUM : return onviewalbum(state,action);
+        case actionTypes.AUTH_SUCCESSLOAD : return onsuccessload(state,action);
         default : return state;
     }
 
