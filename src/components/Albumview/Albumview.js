@@ -6,7 +6,7 @@ const Albumview = (props) =>{
     return(
         <div  className="Order">
            <span className="albumview" onClick={props.clicked} >
-           <img onClick={props.clicked} src={props.id} alt={props.name} /><br/>
+           <img style={{cursor:'pointer'}} onClick={props.clicked} src={props.id} alt={props.name} /><br/>
            {props.name}</span>
            
             {tri}
