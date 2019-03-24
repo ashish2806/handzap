@@ -1,37 +1,69 @@
 import React , { Component } from "react";
-import axios from 'axios';
+import * as actions from '../../store/actions/index';
+import { connect } from 'react-redux';
+import Albumview from '../../components/Albumview/Albumview';
+import Slider from '../../components/Slider/Slider';
 class Album extends Component{
 
-    loginHandler(){
 
-        const data ={
-            //email:this.props.ema,
-            //password:this.props.pas
-        }
-        
-        axios.get('/105738090601896/albums',{headers: {
-            Authorization: 'Bearer EAAFZAlPe5DS8BAEeYNHZABMkVwZCuZA8kKguSouvDkdjvLZCwvyU6TZC0hYY9kNpcGmKufh1PhA9GnOb79G0jJ0SzXGZBTZAPLwMVY3TAQ4WcctYtglzTwtog6MBLytS0ZChcQhfd2xKba29GdqPjfYMrgZCurHDIMXObXJlhQhDERdlNdHCytv5x1HRjQZAPuQ7wdIq6AVI6rat65k1wZBwTY3F'
-          }}).then(response =>{
-            
-               console.log(response);
-               
-        }).catch(error=>{
-            if (error.response.status === 401) {
-                console.log(error.response.data.error);
-               // console.log('unauthorized, logging out ...');
-               
-            }
-            return Promise.reject(error.response);
-        });
+     getalbumHandler(token,id){
+        this.props.getalbum(token,id);
+        this.props.onviewalbum();
+    }
+    componentDidMount(){
+        setTimeout(() => {
+            this.props.getalbum(this.props.token,this.props.userId);
+        }, 3000);
+        this.props.onviewalbum();
     }
     render(){
+        let albumdata = null;
+        if(this.props.token !== null && this.props.albums) {
+
+           // albumdata = this.props.albums.data;
+
+            albumdata =  this.props.albums.data.map(igkey =>{
+                    return (<Albumview key={igkey.id} name={igkey.name} insidealbum ={this.props.insidealbums} id={igkey.picture.data.url}  clicked={() => this.props.albumclick(igkey.id)} />);
+                });
+               
+                    
+        }
+
+        let tri = null;
+        if(this.props.insidealbums !== null){
+            /*   tri = props.insidealbum.map(ig=>{
+                    return (<span key={ig.id}><img src={ig}/></span>);
+                });*/
+                  tri = <Slider data ={this.props.insidealbums}/>
+                }
+
+       
         return(
             <div>
-                <button onClick={this.loginHandler}>Get albums</button>
-
+                <div className="fbData">
+                    <button  onClick={() => this.getalbumHandler(this.props.token,this.props.userId)}>Refresh</button>
+                </div>  
+                {albumdata}
+                {tri}
             </div>
         )
     }
 }
+const mapStatetpProps = state => {
+    return{
+            loading : state.auth.loading,
+            token : state.auth.token,
+            userId : state.auth.userId,
+            albums : state.album.albums,
+            insidealbums : state.album.insidealbums
+    }
+}
 
-export default Album;
+const mapDispatchtoProps = dispatch =>{
+    return{
+        getalbum : (token,id) => dispatch(actions.getalbumLists(token,id)),
+        albumclick : (id) => dispatch(actions.getalbumphotos(id)),
+        onviewalbum : () => dispatch(actions.onviewalbum(true))
+    }
+}
+export default connect(mapStatetpProps,mapDispatchtoProps)(Album);

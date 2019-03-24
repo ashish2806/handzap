@@ -4,13 +4,28 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore,applyMiddleware,compose,combineReducers } from 'redux';
 import axios from 'axios';
+import authreducer from './store/reducers/Auth';
+import albumreducer from './store/reducers/Album';
+import thunk from 'redux-thunk';
 axios.defaults.baseURL = 'https://graph.facebook.com';
+const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
+const rootReducer = combineReducers({
+    auth : authreducer,
+    album : albumreducer
+});
+const store = createStore(rootReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
 const app  = (
     
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+    <Provider store={store}>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+    </Provider>
     
 );
 
