@@ -16,7 +16,8 @@ class Auth extends Component{
         this.props.onviewalbum();
     }
     responseFacebook = (response) =>{
-        console.log(response);
+        
+        if(response.id)
         this.props.onAuth(response);
     }
     render(){
