@@ -55,17 +55,17 @@ export const authexpireTimrout = (exp_time) =>{
     }
 }
 export const auth  = (response) =>{
-    console.log("fff");
+    
     return dispatch => {
             dispatch(authStart());
-          //  console.log(response);
+           
             const expirationDate = new Date (new Date().getTime() + response.data_access_expiration_time    * 1000);
             localStorage.setItem('token',response.accessToken);
             localStorage.setItem('userId',response.userID);
             localStorage.setItem('expirationDate',expirationDate);
             localStorage.setItem('email',response.email);
             localStorage.setItem('name',response.name);
-            localStorage.setItem('picture',response.picture.data.url);
+            localStorage.setItem('picture','as');
             dispatch(authSuccess(response));
            // dispatch(authexpireTimrout(response.data_access_expiration_time  ))
     }
@@ -97,7 +97,6 @@ export const authCheckState = () =>{
                 const email = localStorage.getItem('email');
                 const picture  = localStorage.getItem('picture');
                 dispatch(authSuccessload(token,userId,name,email,picture));
-                dispatch(authexpireTimrout( (expirationDate.getTime() - new Date().getTime())/1000 ));
             }
            
         }
