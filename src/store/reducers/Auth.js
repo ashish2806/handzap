@@ -38,7 +38,7 @@ const onsuccessload = (state,action) =>{
         name:action.name,
         email:action.email,
         picture : action.picture,
-        view_album: false
+        view_album: true
         
      } );
 }

@@ -65,7 +65,7 @@ export const auth  = (response) =>{
             localStorage.setItem('expirationDate',expirationDate);
             localStorage.setItem('email',response.email);
             localStorage.setItem('name',response.name);
-            localStorage.setItem('picture','as');
+            localStorage.setItem('picture',response.picture.data.url);
             dispatch(authSuccess(response));
            // dispatch(authexpireTimrout(response.data_access_expiration_time  ))
     }
